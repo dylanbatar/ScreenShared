@@ -12,6 +12,9 @@
     "license": "ISC",
     "dependencies": {
         "@material-ui/core": "^4.10.2",
+        "@material-ui/icons": "^4.9.1",
+        "bcrypt": "^5.0.0",
+        "cors": "^2.8.5",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "socket.io": "^2.3.0",

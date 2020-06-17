@@ -1,0 +1,8 @@
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    align-items: center;
+}

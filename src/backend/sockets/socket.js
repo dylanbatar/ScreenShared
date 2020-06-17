@@ -1,7 +1,7 @@
 const io = require("../server");
 
 io.on("connection", (client) => {
-  console.log("Usuario conectado",client.handshake);
+  console.log("Usuario conectado",client.handshake.headers['user-agent']);
   client.on("disconnect", () => {
     console.log("Un usuario se a desconectado");
   });
@@ -18,7 +18,6 @@ io.on("connection", (client) => {
   client.emit("welcome", { mensaje: "Bienvenido a ScreenMirror" });
 
   client.on("get-user", (client, cb) => {
-    console.log(client);
-    
+    // console.log(client.headers.host);
   });
 });
