@@ -3,6 +3,7 @@ import { emitDataUser } from "../../services/socket.service";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
+import ScreenShareIcon from "@material-ui/icons/ScreenShare";
 import { Redirect, Link } from "react-router-dom";
 //Styles
 import Swal from "sweetalert2";
@@ -53,6 +54,11 @@ export default class LogInForm extends Component {
       <center>
         <Card className="form">
           <br />
+          <ScreenShareIcon className="icon"/>
+          <br />
+          <br />
+          <br />
+          <br />
           <form>
             <TextField
               label="Email"
@@ -78,11 +84,10 @@ export default class LogInForm extends Component {
             </Button>
             <br />
             <br />
+            you don't have an account yet? <br />
             <Link to="/signin">
-              you don't have an account yet? <br />
               Create one now!
             </Link>
-            <br />
           </form>
           <br />
         </Card>

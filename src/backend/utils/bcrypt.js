@@ -1,27 +1,25 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
-const encriptarPassword = (pass,salt)=>{
-  let password;
+const encriptarPassword = (pass, salt) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(pass, salt, function (err, hash) {
+      if (err) {
+        reject(err);
+      }
+      resolve(hash);
+    });
+  });
+};
 
- return new Promise((resolve,reject)=>{
-    bcrypt.hash(pass, salt, function(err, hash) {
-      if(err){
+const desencriptarPass = (passReal, passWithHash) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(passReal, passWithHash, function (err, result) {
+      if (err) {
         reject(err)
       }
-    
-      resolve(hast)
+      resolve(result)
     });
-  })
-}
-
-const desencriptarPass = (passReal,passWithHash) => {
-  return bcrypt.compare(passReal, passWithHash, function(err, result) {
-    if(err){
-      throw new Error("Ocurrio un error al intentar desencriptar");
-    }
-    return result;
   });
-}
+};
 
-
-module.exports = {encriptarPassword,desencriptarPass}
+module.exports = { encriptarPassword, desencriptarPass };
