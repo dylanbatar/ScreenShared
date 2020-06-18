@@ -1,7 +1,7 @@
 const io = require("../server");
 
 io.on("connection", (client) => {
-  console.log("Usuario conectado",client.handshake.headers['user-agent']);
+  // console.log("Usuario conectado",client.handshake.headers['user-agent']);
   client.on("disconnect", () => {
     console.log("Un usuario se a desconectado");
   });

@@ -1,8 +1,11 @@
 const USER_MODEL = require('../models/user.model');
+const { encriptarPassword , desencriptarPass} = require('../utils/bcrypt')
 let userController = {}
 
 userController.create = async(req,res)=>{
   let {username, email,password} = req.body;
+
+  console.log(encriptarPassword(password,10))
 
   const NEW_USER = await new USER_MODEL({
     username,
@@ -25,13 +28,33 @@ userController.create = async(req,res)=>{
 
 userController.login = async (req,res)=>{
   let {email,password} = req.body;
-  // USER_MODEL.find({email})
-  // .then(( data ) => res.json({ok:tru e,data,message:'logged'}))
-  // .catch(err=> res.json({ok:false,data:[],message:'Error'}))
+  
+  USER_MODEL.findOne({email:email},(err,someOne)=>{
 
-  res.json({
-    ok:true,
-    data:"hola"
+    console.log(someOne)
+
+    if (!someOne) {
+      return res.json({
+        ok:true,
+        data:[],
+        message:'Correo no existe'
+      })
+    }
+
+    if(!desencriptarPass(password,someOne.password)){
+      return res.json({
+        ok:false,
+        data:[],
+        message:'password incorrecto'
+      })
+    }
+
+    return res.json({
+      ok:true,
+      data:someOne,
+      message:'Estoy dentro'
+    })
+
   })
 }
 

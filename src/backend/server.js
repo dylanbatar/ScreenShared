@@ -8,7 +8,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 
 // DB CONECTION
-// require('./db');
+require('./db');
 
 dotenv.config();
 
