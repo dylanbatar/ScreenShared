@@ -16,22 +16,25 @@ export default class LogInForm extends Component {
       email: "",
       pass: "",
       redirect: null,
-      access_code: ''
+      access_code: "",
     };
   }
 
   render() {
-    emitDataUser("usernamee");
     //Get Access Code
-    const getAccessCode = () => { 
-      let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let result = characters.split('')
-          .map((item) => characters
-            .charAt(Math.floor(Math.random() * characters.length)))
-          .splice(0, 20).join('');
-      
+    const getAccessCode = () => {
+      let characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let result = characters
+        .split("")
+        .map((item) =>
+          characters.charAt(Math.floor(Math.random() * characters.length))
+        )
+        .splice(0, 20)
+        .join("");
+
       return result;
-    }
+    };
 
     //Handlers
     const emailHandler = (e) => this.setState({ email: e.target.value });
@@ -47,43 +50,46 @@ export default class LogInForm extends Component {
         body: JSON.stringify({
           email,
           password: pass,
-          access_code: code
+          access_code: code,
         }),
       })
         .then((response) => response.json())
         .then((data) => {
-          data.ok ? Swal.fire({
-            title: "Log In Succesfully!",
-            icon: "success",
-            confirmButtonText: "Continue",
-          })
-            .then((_) => {
-              beEmiter(email);
-              this.setState({ access_code: code ,redirect: "/screen" })
-            })
-          : Swal.fire({
-              title: "Log In Failed!",
-              icon: "error",
-              confirmButtonText: "Continue",
-          });
+          data.ok
+            ? Swal.fire({
+                title: "Log In Succesfully!",
+                icon: "success",
+                confirmButtonText: "Continue",
+              }).then((_) => {
+                beEmiter(email, code);
+                this.setState({ access_code: code, redirect: "/screen" });
+              })
+            : Swal.fire({
+                title: "Log In Failed!",
+                icon: "error",
+                confirmButtonText: "Continue",
+              });
         })
         .catch((err) => console.log(err));
       // emitDataUser({ user, email, pass });
     };
 
     if (this.state.redirect)
-      return <Redirect from="" 
-      to = {{
-        pathname: this.state.redirect,
-        state: { access_code: this.state.access_code }
-      }}    
-    />;
+      return (
+        <Redirect
+          from=""
+          to={{
+            pathname: this.state.redirect,
+            state: { access_code: this.state.access_code },
+          }}
+        />
+      );
 
     return (
       <center>
         <Card className="form">
           <br />
-          <ScreenShareIcon className="icon"/>
+          <ScreenShareIcon className="icon" />
           <br />
           <br />
           <br />
@@ -114,9 +120,7 @@ export default class LogInForm extends Component {
             <br />
             <br />
             you don't have an account yet? <br />
-            <Link to="/signin">
-              Create one now!
-            </Link>
+            <Link to="/signin">Create one now!</Link>
           </form>
           <br />
         </Card>

@@ -11,7 +11,8 @@ io.on("connection", (client) => {
 
   client.on("enlazar", (data, cb) => {
     if (data.user) {
-      userActives.addUser(client.id, data.user, data.share,data['access_code']);
+      console.log(data)
+      userActives.addUser(client.id, data.user,data.access_code, data.share);
     }
 
     client.emit("nuevo-user", userActives.getAllUser());

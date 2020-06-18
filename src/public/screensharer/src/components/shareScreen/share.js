@@ -47,7 +47,6 @@ class Share extends Component {
             className="accessCode"
             label="accessCode"
             placeholder="accessCode"
-            value={this.props.location.state.access_code}
             disabled
           />
           <Button

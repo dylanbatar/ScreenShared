@@ -18,8 +18,8 @@ const emitDataUser = (user) => {
   sockets.emit("get-user", { user: user });
 };
 
-const beEmiter = (user) => {
-  sockets.emit("enlazar", { user, share: true });
+const beEmiter = (user,access_code) => {
+  sockets.emit("enlazar", { user, share: true,access_code });
 };
 
 // TODO para manana 
