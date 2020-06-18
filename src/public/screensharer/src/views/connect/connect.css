@@ -1,0 +1,26 @@
+#connect.container{
+  display:flex!important;
+  justify-content: center!important;
+  align-items: center!important;
+  margin-top: 2rem!important;
+}
+#connect.card {
+  max-width: 500px;
+}
+
+#connect .poster{
+  padding:1rem;
+  object-fit: contain;
+}
+#connect .input-code{
+  width:100%!important  ;
+}
+
+#connect .decription{
+  margin-left: 0!important;
+}
+
+#connect .buttons{
+  display:flex;
+  justify-content: flex-end;
+}

@@ -1,23 +1,28 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
+import Button from "@material-ui/cor0e/Button";
 import ShareIcon from "@material-ui/icons/Share";
 import BlockIcon from "@material-ui/icons/Block";
 import TextField from "@material-ui/core/TextField";
 //Styles
 import "./share.css";
-import { transmitir } from "../../services/socket.service";
+import { transmitir, beEmiter } from "../../services/socket.service";
 
 class Share extends Component {
   constructor(props) {
     super(props);
     this.video = React.createRef();
+    beEmiter({
+      access_code: props.location.state.access_code,
+      email: "test",
+    });
   }
   render() {
     //Methods
     const startCapture = async () => {
       const screen = this.video.current;
-      screen.srcObject = await navigator.mediaDevices
+      //transmitir
+      const media = await navigator.mediaDevices
         .getDisplayMedia({
           video: {
             cursor: "always",
@@ -30,8 +35,8 @@ class Share extends Component {
           console.error("Error:" + err);
           return null;
         });
-
-     
+      screen.srcObject = media;
+      transmitir({ media });
     };
 
     const stopCapture = async () => {
@@ -49,9 +54,10 @@ class Share extends Component {
           </Card>
           <TextField
             className="accessCode"
-            label="accessCode"
-            placeholder="accessCode"
+            label="Access Code"
+            placeholder="Access Code"
             disabled
+            value={this.props.location.state.access_code}
           />
           <Button
             className="button"

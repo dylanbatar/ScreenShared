@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import {
-  transmitir,
-} from "../../services/socket.service";
+import { transmitir } from "../../services/socket.service";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
@@ -23,27 +21,11 @@ export default class LogInForm extends Component {
   }
 
   render() {
-    //Get Access Code
-    const getAccessCode = () => {
-      let characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      let result = characters
-        .split("")
-        .map((item) =>
-          characters.charAt(Math.floor(Math.random() * characters.length))
-        )
-        .splice(0, 20)
-        .join("");
-
-      return result;
-    };
-
     //Handlers
     const emailHandler = (e) => this.setState({ email: e.target.value });
     const passHandler = (e) => this.setState({ pass: e.target.value });
     const loginHandler = () => {
       const { email, pass } = this.state;
-      const code = getAccessCode();
       fetch("http://localhost:5000/login", {
         method: "POST",
         headers: {
@@ -51,8 +33,7 @@ export default class LogInForm extends Component {
         },
         body: JSON.stringify({
           email,
-          password: pass,
-          access_code: code,
+          password: pass
         }),
       })
         .then((response) => response.json())
@@ -63,7 +44,7 @@ export default class LogInForm extends Component {
                 icon: "success",
                 confirmButtonText: "Continue",
               }).then((_) => {
-                this.setState({ access_code: code, redirect: "/screen" });
+                this.setState({ redirect: "/options" });
               })
             : Swal.fire({
                 title: "Log In Failed!",
@@ -76,15 +57,7 @@ export default class LogInForm extends Component {
     };
 
     if (this.state.redirect)
-      return (
-        <Redirect
-          from=""
-          to={{
-            pathname: this.state.redirect,
-            state: { access_code: this.state.access_code },
-          }}
-        />
-      );
+      return <Redirect from="" to={this.state.redirect} />;
 
     return (
       <center>

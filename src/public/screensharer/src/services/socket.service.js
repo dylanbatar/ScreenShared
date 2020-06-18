@@ -6,23 +6,20 @@ sockets.on("disconnect", (data) => {
   console.log("conexion con el servidor perdida");
 });
 
-sockets.on('transmitir',(data)=>{
-  console.log(data)
-})
-
-const emitDataUser = (user) => {
-  sockets.emit("get-user", { user: user });
-};
-
-const beEmiter = (user, access_code) => {
-  sockets.emit("enlazar", { user, share: true, access_code });
-};
-
+// para transmitir pasar el access_code y el email
 const transmitir = (data) => {
   console.log(data)
   sockets.emit("transmitir", data);
 };
 
-const beReceptor = () => {};
+const recibir = () => {
+  sockets.on('transmitir',(data)=>{
+    console.log(data)
+  })
+};
 
-export { emitDataUser, beEmiter, transmitir };
+const beEmiter = (data)=>{
+  sockets.emit('enlazar',data)
+}
+
+export { recibir, transmitir,beEmiter };

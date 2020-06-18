@@ -16,11 +16,13 @@ class NavBar extends Component {
           <Button color="inherit" startIcon={<ScreenShareIcon />}>
             <h3>ScreenShare</h3>
           </Button>
-          <Link to="/login" style={{ textDecoration: 'none' }}>
+         <div>
+         <Link to="/login" style={{ textDecoration: 'none' }}>
             <Button className="link" startIcon={<PersonIcon />}>
               Log In
             </Button>
           </Link>
+         </div>
         </Toolbar>
       </AppBar>
     );

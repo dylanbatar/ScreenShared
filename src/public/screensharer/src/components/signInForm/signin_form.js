@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { emitDataUser } from "../../services/socket.service";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
@@ -20,8 +19,6 @@ export default class SignInForm extends Component {
   }
 
   render() {
-    emitDataUser("usernamee");
-
     //Handlers
     const userHandler = (e) => this.setState({ user: e.target.value });
     const emailHandler = (e) => this.setState({ email: e.target.value });

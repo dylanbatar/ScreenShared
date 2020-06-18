@@ -21,8 +21,11 @@ class User {
     let disconnectedUser = this.getUser(id);
     this.userList = this.userList.filter(item => item.id != id);
     console.log(this.userList);
-    
     return disconnectedUser
+  }
+
+  checkAccessCode(access_code){
+    return this.userList.filter((user) => user.access_code == access_code)[0];
   }
 }
 
