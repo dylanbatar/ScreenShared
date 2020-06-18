@@ -14,7 +14,7 @@ class App extends Component {
           <Switch>
             <Route path="/login" component={LogInForm} />
             <Route path="/signin" component={SignInForm} />
-            <Route path="/screen" render={() => <Share />} />
+            <Route path="/screen" render={(props) => <Share {...props}/>} />
           </Switch>
           <Redirect from="" to="/login" />
         </div>

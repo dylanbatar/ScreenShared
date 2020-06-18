@@ -16,10 +16,9 @@ class NavBar extends Component {
           <Button color="inherit" startIcon={<ScreenShareIcon />}>
             <h3>ScreenShare</h3>
           </Button>
-          <Link to="/login">
-            <Button className="link">
-              <PersonIcon />
-              <span>Log In</span>
+          <Link to="/login" style={{ textDecoration: 'none' }}>
+            <Button className="link" startIcon={<PersonIcon />}>
+              Log In
             </Button>
           </Link>
         </Toolbar>

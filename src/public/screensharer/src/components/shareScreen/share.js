@@ -3,11 +3,13 @@ import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import ShareIcon from "@material-ui/icons/Share";
 import BlockIcon from "@material-ui/icons/Block";
+import TextField from '@material-ui/core/TextField';
+//Styles
 import "./share.css";
 
 class Share extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.video = React.createRef();
   }
   render() {
@@ -26,7 +28,7 @@ class Share extends Component {
         .catch((err) => {
           console.error("Error:" + err);
           return null;
-        });
+        });  
     };
 
     const stopCapture = async () => {
@@ -41,15 +43,21 @@ class Share extends Component {
           <Card id="screen">
             <video ref={this.video} autoPlay></video>
           </Card>
-
+          <TextField
+            className="accessCode"
+            label="accessCode"
+            placeholder="accessCode"
+            value={this.props.location.state.access_code}
+            disabled
+          />
           <Button
             className="button"
             color="primary"
             onClick={startCapture}
             variant="contained"
+            startIcon={<ShareIcon fontSize="small" />}
           >
-            <span>Share</span>
-            <ShareIcon fontSize="small" />
+            Share
           </Button>
 
           <Button
@@ -57,9 +65,9 @@ class Share extends Component {
             color="secondary"
             onClick={stopCapture}
             variant="contained"
+            startIcon={<BlockIcon fontSize="small" />}
           >
-            <span>Stop</span>
-            <BlockIcon fontSize="small" />
+            Stop
           </Button>
           <br />
           <br />

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { emitDataUser } from "../../services/socket.service";
+import { emitDataUser, beEmiter } from "../../services/socket.service";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
@@ -16,39 +16,68 @@ export default class LogInForm extends Component {
       email: "",
       pass: "",
       redirect: null,
+      access_code: ''
     };
   }
 
   render() {
     emitDataUser("usernamee");
+    //Get Access Code
+    const getAccessCode = () => { 
+      let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = characters.split('')
+          .map((item) => characters
+            .charAt(Math.floor(Math.random() * characters.length)))
+          .splice(0, 20).join('');
+      
+      return result;
+    }
 
     //Handlers
     const emailHandler = (e) => this.setState({ email: e.target.value });
     const passHandler = (e) => this.setState({ pass: e.target.value });
     const loginHandler = () => {
       const { email, pass } = this.state;
+      const code = getAccessCode();
       fetch("http://localhost:5000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password: pass }),
+        body: JSON.stringify({
+          email,
+          password: pass,
+          access_code: code
+        }),
       })
         .then((response) => response.json())
         .then((data) => {
-          Swal.fire({
+          data.ok ? Swal.fire({
             title: "Log In Succesfully!",
             icon: "success",
             confirmButtonText: "Continue",
+          })
+            .then((_) => {
+              beEmiter(email);
+              this.setState({ access_code: code ,redirect: "/screen" })
+            })
+          : Swal.fire({
+              title: "Log In Failed!",
+              icon: "error",
+              confirmButtonText: "Continue",
           });
-          this.setState({ redirect: "screen" });
         })
         .catch((err) => console.log(err));
       // emitDataUser({ user, email, pass });
     };
 
     if (this.state.redirect)
-      return <Redirect from="" to={"/" + this.state.redirect} />;
+      return <Redirect from="" 
+      to = {{
+        pathname: this.state.redirect,
+        state: { access_code: this.state.access_code }
+      }}    
+    />;
 
     return (
       <center>

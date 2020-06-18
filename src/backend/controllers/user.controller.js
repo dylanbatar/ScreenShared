@@ -35,7 +35,7 @@ userController.login = async (req, res) => {
 
     if (!someOne) {
       return res.json({
-        ok: true,
+        ok: false,
         data: [],
         message: "Correo no existe",
       });

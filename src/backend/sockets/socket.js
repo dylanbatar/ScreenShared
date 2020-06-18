@@ -1,23 +1,28 @@
 const io = require("../server");
+const User = require("../class/user.class");
+
+let userActives = new User();
 
 io.on("connection", (client) => {
-  // console.log("Usuario conectado",client.handshake.headers['user-agent']);
+
   client.on("disconnect", () => {
     console.log("Un usuario se a desconectado");
   });
 
-  client.on("mandarDatos", (data, callback) => {
-    if (!data.share) {
-      callback({ resp: "No estas transmitiendo" });
-    } else {
-      console.log(data);
-      callback({ resp: `${data.usuario} esta transmitiendo` });
+  client.on("enlazar", (data, cb) => {
+    if (data.user) {
+      userActives.addUser(client.id, data.user, data.share,data['access_code']);
     }
+
+    client.emit("nuevo-user", userActives.getAllUser());
+  });
+
+  client.on("transmitir", (data) => { 
+    let user = userActives.getUser(client.id);
+    client.broadcast
+      .to(data.id)
+      .emit("transmitir", { user, message: data.mensaje });
   });
 
   client.emit("welcome", { mensaje: "Bienvenido a ScreenMirror" });
-
-  client.on("get-user", (client, cb) => {
-    // console.log(client.headers.host);
-  });
 });

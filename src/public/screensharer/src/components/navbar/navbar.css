@@ -9,8 +9,5 @@
 
 .link {
     color: white !important;
-}
-
-.link>span {
     text-decoration: none !important;
 }
