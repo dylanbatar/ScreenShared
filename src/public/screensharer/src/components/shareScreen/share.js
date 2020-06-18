@@ -3,9 +3,10 @@ import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import ShareIcon from "@material-ui/icons/Share";
 import BlockIcon from "@material-ui/icons/Block";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 //Styles
 import "./share.css";
+import { transmitir } from "../../services/socket.service";
 
 class Share extends Component {
   constructor(props) {
@@ -28,7 +29,9 @@ class Share extends Component {
         .catch((err) => {
           console.error("Error:" + err);
           return null;
-        });  
+        });
+
+     
     };
 
     const stopCapture = async () => {
@@ -37,6 +40,7 @@ class Share extends Component {
       tracks.forEach((track) => track.stop());
       screen.srcObject = null;
     };
+
     return (
       <Card className="container">
         <center>

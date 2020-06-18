@@ -32,7 +32,6 @@ userController.login = async (req, res) => {
   let { email, password } = req.body;
 
   USER_MODEL.findOne({ email: email }, (err, someOne) => {
-
     if (!someOne) {
       return res.json({
         ok: false,
@@ -49,6 +48,8 @@ userController.login = async (req, res) => {
           message: "password incorrecto",
         });
       }
+
+
       return res.json({
         ok: true,
         data: someOne,

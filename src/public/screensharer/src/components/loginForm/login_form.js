@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { emitDataUser, beEmiter } from "../../services/socket.service";
+import {
+  transmitir,
+} from "../../services/socket.service";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
@@ -61,7 +63,6 @@ export default class LogInForm extends Component {
                 icon: "success",
                 confirmButtonText: "Continue",
               }).then((_) => {
-                beEmiter(email, code);
                 this.setState({ access_code: code, redirect: "/screen" });
               })
             : Swal.fire({
