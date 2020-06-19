@@ -15,11 +15,11 @@ class Share extends Component {
   }
 
   componentDidMount(){
+    console.log('ok');
     beEmiter({
       access_code: this.props.location.state.access_code,
       email: sessionStorage.getItem("email"),
     });
-    console.log('ok');
   }
 
   render() {
@@ -41,7 +41,7 @@ class Share extends Component {
           return null;
         });
       screen.srcObject = media;
-      transmitir({ media });
+      transmitir({ email:sessionStorage.getItem("email"),media });
     };
 
     const stopCapture = async () => {

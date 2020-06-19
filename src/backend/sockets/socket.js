@@ -4,32 +4,37 @@ const User = require("../class/user.class");
 let userActives = new User();
 
 io.on("connection", (client) => {
-  
-  client.on("enlazar", (data ,cb) => {
+  console.log(userActives.getAllUser());
+
+  // se ejecuta solo si un cliente elige compartir su pantalla
+  client.on("enlazar", (data, cb) => {
     userActives.addUser(client.id, data.email, data.access_code);
-    client.emit('enlazar',{message:'Estas listo para transmitir',users_connect:userActives.getAllUser()})
-
-  });
-
-  client.on("transmitir", (data,cb) => {
-    client.join(data.access_code);
-    client.to(data.access_code).emit("transmitir", data);
-    cb('Estas emitiendo !!!')
-  });
-
-  client.on("espectador", (data, cb) => {
-    let stream = userActives.checkAccessCode(data.access_code);
-    console.log(stream)
-    if (stream.length === 0) {
-      cb({ error: "Este access code es invalido" });
-    }
-    client.join(data.access_code);
-    client.to(data.access_code).on("transmitir",() =>{
-      console.log("Estas espectando el stream de" + stream.user)
+    client.emit("enlazar", {
+      message: "Estas listo para transmitir",
+      users_connect: userActives.getAllUser(),
     });
+    console.log(userActives.getAllUser());
+    client.join(data.access_code);
   });
 
-  io.on("disconnect", () => {
+  // Se ejecuta cuando ya se empieza a compartir pantalla
+  client.on("transmitir", (data, cb) => {
+    let user = userActives.joinByEmail(data.email);
+    client.broadcast.to(user.access_code).emit("transmitir", { user, data });
+    cb("Estas emitiendo !!!", data);
+  });
+
+
+  // Se ejecuata una vez presionado el boton de entrar al stram
+  // Solo se puede ingresar con un access_code valido
+  client.on("espectador", (access_code, cb) => {
+    let stremer = userActives.checkAccessCode(access_code);
+    client.join(access_code);
+    client.emit("transmitir",{message:`conectado al stream de ${stremer.email}`} )
+  });
+
+  // Si el cliente se va, se saca de la lista de streams
+  client.on("disconnect", () => {
     console.log(userActives.deleteUser(client.id));
   });
 });

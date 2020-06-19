@@ -27,14 +27,13 @@ class User {
     return disconnectedUser;
   }
 
+  joinByEmail(email){
+    return this.userList.filter((user) => user.user == email)[0];
+    
+  }
+
   checkAccessCode(access_code) {
-    this.userList.filter((user) => {
-      console.log(user);
-      if (user.access_code == access_code) {
-        console.log(user + "es mi access_Code");
-      }
-    });
-    return this.userList.filter((user) => user.access_code == access_code);
+    return this.userList.filter((user) => user.access_code == access_code)[0];
   }
 }
 
