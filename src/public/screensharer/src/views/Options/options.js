@@ -4,10 +4,6 @@ import OptionCard from "../../components/OptionCard/option_card";
 import "./options.css";
 
 export default class Options extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     //Get Access Code
     const getAccessCode = () => {

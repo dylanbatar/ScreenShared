@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { transmitir } from "../../services/socket.service";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
@@ -44,6 +43,7 @@ export default class LogInForm extends Component {
                 icon: "success",
                 confirmButtonText: "Continue",
               }).then((_) => {
+                sessionStorage.setItem("email", email);
                 this.setState({ redirect: "/options" });
               })
             : Swal.fire({
@@ -61,7 +61,7 @@ export default class LogInForm extends Component {
 
     return (
       <center>
-        <Card className="form">
+        <Card className="form" elevation={3}>
           <br />
           <ScreenShareIcon className="icon" />
           <br />

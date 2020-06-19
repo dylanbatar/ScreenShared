@@ -4,25 +4,32 @@ const User = require("../class/user.class");
 let userActives = new User();
 
 io.on("connection", (client) => {
-  console.log("conectado pero desde la una sala");
+  
+  client.on("enlazar", (data ,cb) => {
+    userActives.addUser(client.id, data.email, data.access_code);
+    client.emit('enlazar',{message:'Estas listo para transmitir',users_connect:userActives.getAllUser()})
 
-  client.on('enlazar',(data)=>{
-    userActives.addUser(client.id, data.user, data.access_code);
-    client.join(data.access_code);
-  })
-
-  client.on("transmitir", (data) => {
-    client.to(data.access_code).emit("transmitir", data);
   });
 
-  client.on('espectador',(data ,cb) => { 
-    let stream = userActives.checkAccessCode(data.access_code)
-    if(!strem){
-      cb({error:"Este access code es invalido"})
-    }
-  })
+  client.on("transmitir", (data,cb) => {
+    client.join(data.access_code);
+    client.to(data.access_code).emit("transmitir", data);
+    cb('Estas emitiendo !!!')
+  });
 
-  io.on('disconnect',()=>{
-    console.log( userActives.deleteUser(client.id))
-  })
+  client.on("espectador", (data, cb) => {
+    let stream = userActives.checkAccessCode(data.access_code);
+    console.log(stream)
+    if (stream.length === 0) {
+      cb({ error: "Este access code es invalido" });
+    }
+    client.join(data.access_code);
+    client.to(data.access_code).on("transmitir",() =>{
+      console.log("Estas espectando el stream de" + stream.user)
+    });
+  });
+
+  io.on("disconnect", () => {
+    console.log(userActives.deleteUser(client.id));
+  });
 });

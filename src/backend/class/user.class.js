@@ -6,7 +6,11 @@ class User {
   }
 
   addUser(id, username, access_code) {
-    this.userList.push({ id, user: username, share: false, access_code });
+    let exist = this.userList.find((user)=> user.access_code == access_code)
+    if(exist){
+      return;
+    }
+    this.userList.push({ id, user: username, access_code });
   }
 
   getAllUser() {
@@ -19,13 +23,18 @@ class User {
 
   deleteUser(id) {
     let disconnectedUser = this.getUser(id);
-    this.userList = this.userList.filter(item => item.id != id);
-    console.log(this.userList);
-    return disconnectedUser
+    this.userList = this.userList.filter((item) => item.id != id);
+    return disconnectedUser;
   }
 
-  checkAccessCode(access_code){
-    return this.userList.filter((user) => user.access_code == access_code)[0];
+  checkAccessCode(access_code) {
+    this.userList.filter((user) => {
+      console.log(user);
+      if (user.access_code == access_code) {
+        console.log(user + "es mi access_Code");
+      }
+    });
+    return this.userList.filter((user) => user.access_code == access_code);
   }
 }
 

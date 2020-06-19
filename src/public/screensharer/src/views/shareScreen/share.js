@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
-import Button from "@material-ui/cor0e/Button";
+import Button from "@material-ui/core/Button";
 import ShareIcon from "@material-ui/icons/Share";
 import BlockIcon from "@material-ui/icons/Block";
 import TextField from "@material-ui/core/TextField";
@@ -12,11 +12,16 @@ class Share extends Component {
   constructor(props) {
     super(props);
     this.video = React.createRef();
-    beEmiter({
-      access_code: props.location.state.access_code,
-      email: "test",
-    });
   }
+
+  componentDidMount(){
+    beEmiter({
+      access_code: this.props.location.state.access_code,
+      email: sessionStorage.getItem("email"),
+    });
+    console.log('ok');
+  }
+
   render() {
     //Methods
     const startCapture = async () => {

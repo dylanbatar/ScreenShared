@@ -7,11 +7,9 @@ import { Link } from "react-router-dom";
 import "./option_card.css";
 
 export default class OptionCard extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
+
       <div className="card" id="cardOption">
         <Card elevation={3}>
           <Card elevation={3} className="icon-card">
