@@ -33,8 +33,8 @@ const beReceptor = (access_code) => {
   sockets.emit("espectador", access_code, (resp) => {
     console.log(resp);
   });
-  sockets.on('transmitir',(stream)=>{
-    console.log(stream)
+  return sockets.on('transmitir',(stream)=>{
+    return stream;
   })
 };
 

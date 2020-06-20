@@ -6,11 +6,11 @@ class User {
   }
 
   addUser(id, username, access_code) {
-    let exist = this.userList.find((user)=> user.access_code == access_code)
-    if(exist){
-      return;
+    let exist = this.userList.filter((user)=> user.access_code == access_code)
+    if(exist.length === 0){
+      this.userList.push({ id, user: username, access_code });
     }
-    this.userList.push({ id, user: username, access_code });
+    return;
   }
 
   getAllUser() {
@@ -28,8 +28,7 @@ class User {
   }
 
   joinByEmail(email){
-    return this.userList.filter((user) => user.user == email)[0];
-    
+    return this.userList.filter((user) => user.user == email)[0]; 
   }
 
   checkAccessCode(access_code) {

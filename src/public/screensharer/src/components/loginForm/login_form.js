@@ -41,8 +41,9 @@ export default class LogInForm extends Component {
             ? Swal.fire({
                 title: "Log In Succesfully!",
                 icon: "success",
-                confirmButtonText: "Continue",
-              }).then((_) => {
+                showConfirmButton:false,
+                timer: 600
+                }).then((_) => {
                 sessionStorage.setItem("email", email);
                 this.setState({ redirect: "/options" });
               })

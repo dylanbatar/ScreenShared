@@ -14,20 +14,32 @@ class Share extends Component {
     this.video = React.createRef();
   }
 
-  componentDidMount(){
-    console.log('ok');
+  componentDidMount() {
     beEmiter({
       access_code: this.props.location.state.access_code,
       email: sessionStorage.getItem("email"),
+    });
+    this.video.current.addEventListener("loadeddata", (event) => {
+      // console.log(event.target.srcObject.getVideoTracks());
+      // const blobEvent = new BlobEvent({data: aSpecificBlob}[, timecode]);
+      const obj = event.target.srcObject;//.getVideoTracks();
+      const blob = new Blob([obj]);
+      console.log(blob);
+      transmitir({
+        email: sessionStorage.getItem("email"),
+        media: blob,
+      });
     });
   }
 
   render() {
     //Methods
+
     const startCapture = async () => {
       const screen = this.video.current;
       //transmitir
       const media = await navigator.mediaDevices
+
         .getDisplayMedia({
           video: {
             cursor: "always",
@@ -41,7 +53,6 @@ class Share extends Component {
           return null;
         });
       screen.srcObject = media;
-      transmitir({ email:sessionStorage.getItem("email"),media });
     };
 
     const stopCapture = async () => {
@@ -55,7 +66,14 @@ class Share extends Component {
       <Card className="container">
         <center>
           <Card id="screen">
-            <video ref={this.video} autoPlay></video>
+            <video
+              ref={this.video}
+              autoPlay
+              // onLoadedData={({ target }) => {
+              //   console.log(target.srcObject);
+              //   transmit(target.srcObject);
+              // }}
+            ></video>
           </Card>
           <TextField
             className="accessCode"
