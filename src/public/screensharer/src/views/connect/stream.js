@@ -21,18 +21,42 @@ export default class Stream extends Component {
           let media = stream?.media;
 
           if (media) {
-            media = new Uint8Array(media);
-            const blob = new Blob([media]);
-            console.log(blob);
-            const screen = this.video.current;
-            console.log(URL.createObjectURL(blob));
+            //🚀
+            this.context = this.video.current.getContext("2d");
+
+            console.log(media);
+
+            // let arrayBufferView = new Uint8Array(media);
+            // let blob = new Blob([arrayBufferView], { type: "image/webp" });
+            // let urlCreator = window.URL || window.webkitURL;
+            // let imageUrl = urlCreator.createObjectURL(blob);
+
+            // create custom array view and fill with some random data
+
+            // create ImageData instance
+            // var array = new Uint32Array(media);
+            // var iData = new ImageData(
+            //   new Uint8ClampedArray(array.buffer),
+            //   100,
+            //   100
+            // );
+
+            // const imgtag = document.querySelector("#img");
+
+            // let imgData = new Blob([
+            //   new Uint8Array(media, media.byteOffset, media.byteLength),
+            // ]);
+            // imgtag.src = imgData;
+
+            // img.onload = () => {
+            //   console.log(img);
+            //   this.context.drawImage(img, 0, 0, 500, 500);
+            // };
+
+            //🚀
+
+            // screen.srcObject = URL.createObjectURL(blob);
             //screen.src = URL.createObjectURL(blob);
-            // const data = await new Response(media);
-            // console.log(data.blob());
-            // await data.blob().then((result) => {
-            //   let clone = result.clone();
-            //   console.log(clone);
-            // });
           }
         }
       });
@@ -43,7 +67,8 @@ export default class Stream extends Component {
     return (
       <div id="stream">
         <Card id="screen" elevation={3}>
-          <video ref={this.video} autoPlay></video>
+          <canvas id="canvas" ref={this.video}></canvas>
+          <img id="img" src="" alt=""></img>
         </Card>
       </div>
     );

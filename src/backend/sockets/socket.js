@@ -20,6 +20,8 @@ io.on("connection", (client) => {
   // Se ejecuta cuando ya se empieza a compartir pantalla
   client.on("transmitir", (data, cb) => {
     let user = userActives.joinByEmail(data.email);
+    console.log("ME LLEGO ALGO",data)
+
     client.broadcast.to(user.access_code).emit("transmitir", data );
     cb("Estas emitiendo !!!", data);
   });

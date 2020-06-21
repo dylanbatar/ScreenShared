@@ -12,6 +12,7 @@ class Share extends Component {
   constructor(props) {
     super(props);
     this.video = React.createRef();
+    this.canvas = React.createRef();
   }
 
   componentDidMount() {
@@ -19,15 +20,31 @@ class Share extends Component {
       access_code: this.props.location.state.access_code,
       email: sessionStorage.getItem("email"),
     });
+    this.context = this.canvas.current.getContext("2d");
     this.video.current.addEventListener("loadeddata", (event) => {
-      // console.log(event.target.srcObject.getVideoTracks());
-      // const blobEvent = new BlobEvent({data: aSpecificBlob}[, timecode]);
-      const obj = event.target.srcObject;//.getVideoTracks();
-      const blob = new Blob([obj]);
-      console.log(blob);
+      // redibujando el canvas
+      setInterval(() => {
+        this.context.drawImage(this.video.current, 0, 0, 800, 400);
+      }, 100);
+      // obtener los pixeles del canvas
+      let canvasData = this.context.getImageData(0, 0, 800, 400);
+      console.log(canvasData);
+      let pixels = canvasData.data;
+
+      // // mandar estos pixeles
+      // let cond = false;
+      // for (let i = 0; i < pixels.length; i += 4) {
+      //   if (cond) pixels.slice(i, i + 3);
+
+      //   cond = !cond;
+      // }
+      // console.log(pixels);
+
+      const obj = event.target.srcObject.getVideoTracks()[0];
+      const blob = new Blob([obj], { type: "image/webp" });
       transmitir({
         email: sessionStorage.getItem("email"),
-        media: blob,
+        media: canvasData,
       });
     });
   }
@@ -36,10 +53,8 @@ class Share extends Component {
     //Methods
 
     const startCapture = async () => {
-      const screen = this.video.current;
       //transmitir
-      const media = await navigator.mediaDevices
-
+      navigator.mediaDevices
         .getDisplayMedia({
           video: {
             cursor: "always",
@@ -48,11 +63,15 @@ class Share extends Component {
           },
           audio: false,
         })
+        .then((track) => {
+          const screen = this.video.current;
+
+          screen.srcObject = track;
+        })
         .catch((err) => {
           console.error("Error:" + err);
           return null;
         });
-      screen.srcObject = media;
     };
 
     const stopCapture = async () => {
@@ -101,6 +120,9 @@ class Share extends Component {
           >
             Stop
           </Button>
+          <br />
+          <br />
+          <canvas ref={this.canvas} height={400} width={800}></canvas>
           <br />
           <br />
         </center>
